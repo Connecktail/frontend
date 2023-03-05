@@ -1,0 +1,28 @@
+<ion-app>
+  <!-- <ion-header>
+    <app-header></app-header>
+  </ion-header> -->
+  <!-- <ion-content>
+    <ion-router-outlet></ion-router-outlet>
+  </ion-content> -->
+
+  <ion-tabs>
+    <ion-tab-bar slot="bottom">
+      <ion-tab-button tab="list-cocktails" (click)="sendMsg()">
+        <fa-icon icon="martini-glass"></fa-icon>
+        <ion-label>Commander</ion-label>
+      </ion-tab-button>
+  
+      <ion-tab-button tab="accueil">
+        <fa-icon icon="house-chimney"></fa-icon>
+        <ion-label>Accueil  </ion-label>
+      </ion-tab-button>
+  
+      <ion-tab-button tab="list-commands">
+        <fa-icon icon="basket-shopping"></fa-icon>
+        <ion-label>Vos commandes</ion-label>
+      </ion-tab-button>
+    </ion-tab-bar>
+  </ion-tabs>
+  
+</ion-app>

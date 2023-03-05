@@ -1,0 +1,31 @@
+// ion-content {
+//     overflow:scroll
+// }
+:host {
+
+    fa-icon {
+        font-size: 1.5rem;
+    }
+    ion-tab-bar {
+        // box-shadow: 0 0 0.7rem black;
+        border: none;
+        height: 7.5%;
+        align-items: flex-end;
+
+        ion-tab-button {
+            --background: #EF6624;
+            --color: #FBFBFB;
+            --ripple-color: #ffa47d;
+            height: 85%;
+            
+            &.tab-selected {
+                --background: #F96B2E;
+                color: #FBFBFB;
+                --ripple-color: #ffa47d;
+                height: 100%;
+            }
+        }
+    }
+    
+
+}
