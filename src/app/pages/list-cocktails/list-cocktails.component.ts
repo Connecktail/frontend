@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { WebsocketService } from 'src/app/service/websocket.service';
 
 @Component({
   selector: 'app-list-cocktails',
@@ -8,20 +9,23 @@ import { Component, OnInit } from '@angular/core';
 export class ListCocktailsComponent implements OnInit {
   cocktails: any = [];
 
-  constructor() { }
+  constructor(
+    private websocketService: WebsocketService
+  ) { 
+    this.websocketService.$successConnected.subscribe((msg) => {
+      let message = {
+        "action" : "get_cocktails"
+      };
+      this.websocketService.sendMessage(message);
+
+    });
+    this.websocketService.$messageResponse.subscribe((msg) => {
+      console.log("Response from websocket:", msg);
+      this.cocktails = msg.cocktails;
+    });
+  }
 
   ngOnInit() {
-    for(let i = 0; i < 30; i++) {
-      let cocktail = {
-        "name": "",
-        "price": 0.00,
-        "description": "",
-      };
-      cocktail.name = "Cocktail n°" + (i+1);
-      cocktail.price = i+1;
-      cocktail.description = "blablabalbalbal - " + (i+1);
-      this.cocktails.push(cocktail);
-    }
   }
 
 }
