@@ -3,7 +3,9 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  websocket_ip: "localhost",
+  websocket_port: "6543"
 };
 
 /*
