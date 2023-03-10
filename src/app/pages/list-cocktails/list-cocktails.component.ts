@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ModalController } from '@ionic/angular';
+import { CocktailModalComponent } from 'src/app/component/cocktail-modal/cocktail-modal.component';
 import { WebsocketService } from 'src/app/service/websocket.service';
 
 @Component({
@@ -8,9 +10,12 @@ import { WebsocketService } from 'src/app/service/websocket.service';
 })
 export class ListCocktailsComponent implements OnInit {
   cocktails: any = [];
+  isModalOpen: boolean = false;
+  selectedCocktail: any;
 
   constructor(
-    private websocketService: WebsocketService
+    private websocketService: WebsocketService,
+    public modalController: ModalController
   ) { 
     this.websocketService.$successConnected.subscribe((msg) => {
       let message = {
@@ -26,6 +31,27 @@ export class ListCocktailsComponent implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+
+  async cocktailSelected(event: any) {
+    this.selectedCocktail = event;
+    this.isModalOpen = true;
+    const modal = await this.modalController.create({
+      component: CocktailModalComponent,
+      cssClass: 'cocktail-modal',
+      componentProps: {
+        "cocktail": event,
+      }
+    });
+
+    modal.present();
+
+    await modal.onWillDismiss();
+  }
+
+  onCloseModal(event: any) {
+    this.isModalOpen = false;
   }
 
 }
