@@ -6,7 +6,7 @@
         <p>{{(math.round(cocktail.price * 100) / 100).toFixed(2)}} €</p>
       </ion-label>
       <div class="actions-button">
-        <ion-button><ion-icon slot="icon-only" name="list-outline"></ion-icon></ion-button>
+        <ion-button (click)="selectCocktail()"><ion-icon slot="icon-only" name="list-outline"></ion-icon></ion-button>
         <ion-button><ion-icon class="ion-justify-content-start" slot="icon-only" name="cart-outline"></ion-icon></ion-button>
       </div>
     </ion-row>
