@@ -1,0 +1,25 @@
+
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button color="medium" (click)="closeModalEvent()">Retour</ion-button>
+    </ion-buttons>
+    <ion-title>Your Cart</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-list>
+    <ion-list-header>
+      <ion-label>
+        <h2>{{ cart.length }} cocktails</h2>
+        <h2>Total : {{ totalPrice }}€</h2>
+      </ion-label>
+    </ion-list-header>
+    <!-- <ng-container *ngFor="let cocktail of cocktails">
+        <app-cocktail-card 
+            [cocktail]="cocktail"
+            (cocktailSelected)="cocktailSelected($event)"
+        ></app-cocktail-card>
+    </ng-container> -->
+  </ion-list>
+</ion-content>

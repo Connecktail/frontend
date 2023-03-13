@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import { ModalController, ToastController } from '@ionic/angular';
+import { CartModalComponent } from 'src/app/component/cart-modal/cart-modal/cart-modal.component';
 import { CocktailModalComponent } from 'src/app/component/cocktail-modal/cocktail-modal.component';
 import { WebsocketService } from 'src/app/service/websocket.service';
 
@@ -15,7 +16,8 @@ export class ListCocktailsComponent implements OnInit {
 
   constructor(
     private websocketService: WebsocketService,
-    public modalController: ModalController
+    public modalController: ModalController,
+    private toastController: ToastController
   ) { 
     this.websocketService.$successConnected.subscribe((msg) => {
       let message = {
@@ -47,11 +49,34 @@ export class ListCocktailsComponent implements OnInit {
 
     modal.present();
 
-    await modal.onWillDismiss();
+    let resp = await modal.onWillDismiss();
+    if(resp.data == "addedToCart") {
+      const toast = await this.toastController.create({
+        message: 'Cocktail added to cart',
+        duration: 1500,
+        position: "bottom",
+        color: "success",
+        icon: "checkmark-circle-outline"
+      });
+  
+      await toast.present();
+      
+    }
   }
 
   onCloseModal(event: any) {
     this.isModalOpen = false;
+  }
+
+  async openCartModal() {
+    const modal = await this.modalController.create({
+      component: CartModalComponent,
+      cssClass: 'cart-modal'
+    });
+
+    modal.present();
+
+    let resp = await modal.onWillDismiss();
   }
 
 }
