@@ -1,9 +1,15 @@
-<ion-list>
-    <ng-container *ngFor="let cocktail of cocktails">
-        <app-cocktail-card 
-            [cocktail]="cocktail"
-            (cocktailSelected)="cocktailSelected($event)"
-        ></app-cocktail-card>
-    </ng-container>
-</ion-list>
-
+<ion-header>
+    <ion-toolbar>
+        <ion-button slot="end" (click)="openCartModal()"><ion-icon class="ion-justify-content-start" slot="icon-only" name="cart-outline"></ion-icon> Voir le panier</ion-button>
+    </ion-toolbar>
+</ion-header>
+<ion-content>
+    <ion-list>
+        <ng-container *ngFor="let cocktail of cocktails">
+            <app-cocktail-card 
+                [cocktail]="cocktail"
+                (cocktailSelected)="cocktailSelected($event)"
+            ></app-cocktail-card>
+        </ng-container>
+    </ion-list>
+</ion-content>

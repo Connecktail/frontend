@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { StorageService } from 'src/app/service/storage.service';
+import { ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-cocktail-modal',
@@ -15,7 +16,8 @@ export class CocktailModalComponent implements OnInit {
 
   constructor(
     private modalCtrl: ModalController,
-    private storageService: StorageService
+    private storageService: StorageService,
+    private toastController: ToastController
   ) {
     this.cocktail = {
       "name": "",
@@ -44,7 +46,8 @@ export class CocktailModalComponent implements OnInit {
       cart = [this.cocktail];
     }
     this.storageService.set('cart', cart);
-    return this.modalCtrl.dismiss();
+
+    return this.modalCtrl.dismiss("addedToCart");
   }
 
 }
