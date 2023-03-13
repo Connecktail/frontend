@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ModalController } from '@ionic/angular';
+import { StorageService } from 'src/app/service/storage.service';
 
 @Component({
   selector: 'app-cocktail-modal',
@@ -13,7 +14,8 @@ export class CocktailModalComponent implements OnInit {
   @Output () closeModal: EventEmitter<any> = new EventEmitter<any>();
 
   constructor(
-    private modalCtrl: ModalController
+    private modalCtrl: ModalController,
+    private storageService: StorageService
   ) {
     this.cocktail = {
       "name": "",
@@ -32,6 +34,17 @@ export class CocktailModalComponent implements OnInit {
 
   setImageUrl() {
     this.cocktail.image_url = "assets/img/default-cocktail.jpg";
+  }
+
+  async addToCart() {
+    let cart = await this.storageService.get('cart');
+    if (cart) {
+      cart.push(this.cocktail);
+    } else {
+      cart = [this.cocktail];
+    }
+    this.storageService.set('cart', cart);
+    return this.modalCtrl.dismiss();
   }
 
 }
