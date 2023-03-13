@@ -13,11 +13,13 @@ import { fas } from '@fortawesome/free-solid-svg-icons'
 import { far } from '@fortawesome/free-regular-svg-icons'
 import { fab } from '@fortawesome/free-brands-svg-icons'
 import { WebsocketService } from './service/websocket.service';
+import { IonicStorageModule } from '@ionic/storage-angular';
+import { StorageService } from './service/storage.service';
 
 @NgModule({
   declarations: [AppComponent, FooterComponent, HeaderComponent],
-  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, FontAwesomeModule],
-  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, WebsocketService],
+  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, FontAwesomeModule, IonicStorageModule.forRoot()],
+  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, WebsocketService, StorageService],
   bootstrap: [AppComponent],
 })
 export class AppModule {
