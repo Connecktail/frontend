@@ -17,6 +17,7 @@ export class WebsocketService {
     private subject: AnonymousSubject<MessageEvent> | undefined;
     public $messageResponse: Subject<any> = new Subject<any>();
     public $successConnected: Subject<any> = new Subject<any>();
+    public connected: boolean = false;
 
     constructor() {
         this.$messageResponse = <Subject<any>>this.connect(CHAT_URL).pipe(
@@ -42,6 +43,7 @@ export class WebsocketService {
         let observable = new Observable((obs: Observer<MessageEvent>) => {
             ws.onopen = (event) => {
                 this.$successConnected.next(true);
+                this.connected = true;
             }
             ws.onmessage = obs.next.bind(obs);
             ws.onerror = obs.error.bind(obs);

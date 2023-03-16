@@ -16,8 +16,7 @@ export class CocktailModalComponent implements OnInit {
 
   constructor(
     private modalCtrl: ModalController,
-    private storageService: StorageService,
-    private toastController: ToastController
+    private storageService: StorageService
   ) {
     this.cocktail = {
       "name": "",
@@ -39,13 +38,7 @@ export class CocktailModalComponent implements OnInit {
   }
 
   async addToCart() {
-    let cart = await this.storageService.get('cart');
-    if (cart) {
-      cart.push(this.cocktail);
-    } else {
-      cart = [this.cocktail];
-    }
-    this.storageService.set('cart', cart);
+    this.storageService.addCocktailToCart(this.cocktail);
 
     return this.modalCtrl.dismiss("addedToCart");
   }

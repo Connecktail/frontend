@@ -7,6 +7,7 @@
     <ion-list>
         <ng-container *ngFor="let cocktail of cocktails">
             <app-cocktail-card 
+                displayedIn="list-cocktails"
                 [cocktail]="cocktail"
                 (cocktailSelected)="cocktailSelected($event)"
             ></app-cocktail-card>

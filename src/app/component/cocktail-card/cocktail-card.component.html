@@ -5,9 +5,16 @@
         <h2>{{cocktail.name}}</h2>
         <p>{{(math.round(cocktail.price * 100) / 100).toFixed(2)}} €</p>
       </ion-label>
-      <div class="actions-button">
-        <ion-button (click)="selectCocktail()"><ion-icon slot="icon-only" name="list-outline"></ion-icon></ion-button>
-        <ion-button><ion-icon class="ion-justify-content-start" slot="icon-only" name="cart-outline"></ion-icon></ion-button>
+      <div class="actions-button" [class]="displayedIn == 'cart-modal'?'cocktail-number-actions':''">
+        <ng-container *ngIf="displayedIn == 'list-cocktails'">
+          <ion-button (click)="selectCocktail()"><ion-icon slot="icon-only" name="list-outline"></ion-icon></ion-button>
+          <ion-button><ion-icon class="ion-justify-content-start" slot="icon-only" name="cart-outline"></ion-icon></ion-button>
+        </ng-container>
+        <ng-container *ngIf="displayedIn == 'cart-modal'">
+          <ion-button shape="round" (click)="changeCocktailNumber(-1)"><ion-icon name="remove-outline"></ion-icon></ion-button>
+          <span class="cocktail-number">{{cocktail.number}}</span>
+          <ion-button shape="round" (click)="changeCocktailNumber(1)"><ion-icon name="add-outline"></ion-icon></ion-button>
+        </ng-container>
       </div>
     </ion-row>
   </ion-grid>
