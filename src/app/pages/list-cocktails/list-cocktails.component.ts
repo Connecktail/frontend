@@ -24,8 +24,13 @@ export class ListCocktailsComponent implements OnInit {
         "action" : "get_cocktails"
       };
       this.websocketService.sendMessage(message);
-
     });
+    if(this.websocketService.connected) {
+      let message = {
+        "action" : "get_cocktails"
+      };
+      this.websocketService.sendMessage(message);
+    }
     this.websocketService.$messageResponse.subscribe((msg) => {
       console.log("Response from websocket:", msg);
       this.cocktails = msg.cocktails;

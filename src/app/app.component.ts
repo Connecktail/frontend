@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Message, WebsocketService } from './service/websocket.service';
+import { Message } from './service/websocket.service';
 
 @Component({
   selector: 'app-root',

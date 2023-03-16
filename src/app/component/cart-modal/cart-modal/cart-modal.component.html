@@ -10,16 +10,16 @@
 <ion-content>
   <ion-list>
     <ion-list-header>
-      <ion-label>
-        <h2>{{ cart.length }} cocktails</h2>
+      <ion-label class="order-info">
+        <h2>{{ totalNumber }} cocktails</h2>
         <h2>Total : {{ totalPrice }}€</h2>
       </ion-label>
     </ion-list-header>
-    <!-- <ng-container *ngFor="let cocktail of cocktails">
+    <ng-container *ngFor="let cocktail of cart">
         <app-cocktail-card 
+            displayedIn="cart-modal"
             [cocktail]="cocktail"
-            (cocktailSelected)="cocktailSelected($event)"
         ></app-cocktail-card>
-    </ng-container> -->
+    </ng-container>
   </ion-list>
 </ion-content>
