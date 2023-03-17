@@ -4,7 +4,7 @@ import { Observable, Observer } from 'rxjs';
 import { AnonymousSubject } from 'rxjs/internal/Subject';
 import { Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { environment } from 'src/environments/environment';
+import { environment } from 'src/assets/config/conf';
 
 const CHAT_URL = "ws://" + environment.websocket_ip + ":" + environment.websocket_port;
 
