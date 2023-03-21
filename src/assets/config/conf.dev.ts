@@ -1,5 +1,5 @@
 export const environment = {
-    production: true,
+    production: false,
     websocket_ip: "localhost",
     websocket_port: "6543"
   };
