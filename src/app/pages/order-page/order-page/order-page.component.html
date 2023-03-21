@@ -1,3 +1,23 @@
-<p>
-  order-page works!
-</p>
+
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Order</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-list>
+    <ion-list-header>
+      <ion-label class="order-info">
+        <h2>{{ totalNumber }} cocktails</h2>
+        <h2>Total : {{ totalPrice }}€</h2>
+      </ion-label>
+    </ion-list-header>
+    <ng-container *ngFor="let cocktail of cart">
+        <app-cocktail-card 
+            displayedIn="order-page"
+            [cocktail]="cocktail"
+        ></app-cocktail-card>
+    </ng-container>
+  </ion-list>
+  <ion-button (click)="openValidateOrderModal()" expand="block"><ion-icon class="ion-justify-content-start" slot="icon-only" name="basket"></ion-icon> Validate your order</ion-button>
+</ion-content>

@@ -2,7 +2,7 @@
   <ion-header>
     <ion-toolbar>
       <ion-buttons slot="start">
-        <ion-button color="medium" (click)="closeModalEvent()">Retour</ion-button>
+        <ion-button color="medium" (click)="closeModalEvent()">Back</ion-button>
       </ion-buttons>
       <ion-title>{{ cocktail.name }}</ion-title>
     </ion-toolbar>
@@ -10,11 +10,11 @@
   <ion-content>
     <img [src]="cocktail.image_url" alt="cocktail image" (error)="setImageUrl()"/>
     <h2>{{ cocktail.name }}</h2>
-    <p>Prix : {{ cocktail.price }} €</p>
+    <p>Price : {{ cocktail.price }} €</p>
     <div class="description">
       <p>Description :</p>
       <p>{{ cocktail.description }}</p>
     </div>
-    <ion-button (click)="addToCart()" expand="block"><ion-icon class="ion-justify-content-start" slot="icon-only" name="cart-outline"></ion-icon> Ajouter au panier</ion-button>
+    <ion-button (click)="addToCart()" expand="block"><ion-icon class="ion-justify-content-start" slot="icon-only" name="cart-outline"></ion-icon> Add to cart</ion-button>
   </ion-content>
 </ng-container>

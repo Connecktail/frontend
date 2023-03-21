@@ -61,7 +61,8 @@ export class ListCocktailsComponent implements OnInit {
         duration: 1500,
         position: "bottom",
         color: "success",
-        icon: "checkmark-circle-outline"
+        icon: "checkmark-circle-outline",
+        cssClass: "toast-success"
       });
   
       await toast.present();

@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import { Router } from '@angular/router';
+import { ModalController, NavController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { StorageService } from 'src/app/service/storage.service';
 
@@ -16,7 +17,8 @@ export class CartModalComponent implements OnInit {
 
   constructor(
     private modalCtrl: ModalController,
-    private storageService: StorageService
+    private storageService: StorageService,
+    private route: Router
   ) {
     this.cart = [];
   }
@@ -29,15 +31,30 @@ export class CartModalComponent implements OnInit {
     }
 
 
-    this.cocktailNumberChangedSubscription = this.storageService.$cocktailNumberChanged.subscribe(async () => {
-      this.cart = await this.storageService.get('cart');
-      this.totalPrice = 0;
-      this.totalNumber = 0;
-      for (let i = 0; i < this.cart.length; i++) {
-        this.totalPrice += this.cart[i].price*this.cart[i].number;
-        this.totalNumber += this.cart[i].number;
+    this.cocktailNumberChangedSubscription = this.storageService.$cocktailNumberChanged.subscribe(async (res) => {
+      let cart = await this.storageService.get('cart');
+
+      if(!res.deleted) {
+        let cocktailIndex = cart.findIndex((c: any) => c.id == res.cocktailId);
+        if(cocktailIndex != -1 && cart[cocktailIndex].id == res.cocktailId) {
+          this.totalPrice +=  (cart[cocktailIndex].number - this.cart[cocktailIndex].number)*this.cart[cocktailIndex].price;
+          this.totalNumber += cart[cocktailIndex].number - this.cart[cocktailIndex].number;
+          this.cart[cocktailIndex].number = cart[cocktailIndex].number;
+        }
+      } else {
+        let cocktailIndex = this.cart.findIndex((c: any) => c.id == res.cocktailId);
+        if(cocktailIndex != -1) {
+          this.totalPrice -= this.cart[cocktailIndex].price*this.cart[cocktailIndex].number;
+          this.totalNumber -= this.cart[cocktailIndex].number;
+          this.cart.splice(cocktailIndex, 1);
+        }
       }
     });
+  }
+
+  goToCheckout() {
+    this.route.navigate(['/list-commands']);
+    return this.modalCtrl.dismiss();
   }
 
 
