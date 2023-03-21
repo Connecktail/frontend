@@ -63,7 +63,7 @@ export class WebsocketService {
         return new AnonymousSubject<MessageEvent>(observer, observable);
     }
 
-    public sendMessage(message: Message) {
+    public sendMessage(message: any) {
         this.$messageResponse.next(message);
     }
 }

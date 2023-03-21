@@ -10,3 +10,8 @@ ion-header{
         }
     }
 }
+::ng-deep {
+    .toast-success {
+        transform: translateY(-8%) !important;
+    }
+}

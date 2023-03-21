@@ -1,0 +1,26 @@
+
+ion-content {
+    display: flex;
+    flex-direction: column;
+
+    .description {
+        p {
+            margin-bottom: 0; 
+        }
+        p:last-child {
+            margin-top: 0.2rem;
+        }
+    }
+
+    ion-button {
+        position: absolute;
+        bottom: 1rem;
+        right: 1rem;
+        width: calc(100% - 2rem);
+
+        ion-icon {
+            margin-right: 0.2rem;
+            margin-bottom: 4px;
+        }
+    }
+}

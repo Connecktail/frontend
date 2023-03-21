@@ -7,7 +7,7 @@ import { Observable, Subject, Subscription } from 'rxjs';
 })
 export class StorageService {
   private _storage: Storage | null = null;
-  public $cocktailNumberChanged = new Subject<void>();
+  public $cocktailNumberChanged = new Subject<any>();
 
   constructor(private storage: Storage) {
     this.init();
@@ -15,15 +15,15 @@ export class StorageService {
 
   async init() {
     const storage = await this.storage.create();
-    this._storage = storage;
+    this._storage = storage;  
   }
 
-  public set(key: string, value: any) {
-    this._storage?.set(key, value);
+  public async set(key: string, value: any) {
+    await this._storage?.set(key, value);
   }
 
-  public get(key: string) {
-    return this._storage?.get(key);
+  public async get(key: string) {
+    return await this._storage?.get(key);
   }
 
   public addCocktailToCart(cocktail: any) {
@@ -49,11 +49,13 @@ export class StorageService {
       let cocktailIndex = cart.findIndex((c: any) => c.id == cocktailId);
       if(cocktailIndex != -1) {
         cart[cocktailIndex]["number"] += change;
+        let deleted = false;
         if(cart[cocktailIndex]["number"] <= 0) {
           cart.splice(cocktailIndex, 1);
+          deleted = true;
         }
         await this._storage?.set('cart', cart);
-        this.$cocktailNumberChanged.next();
+        this.$cocktailNumberChanged.next({"cocktailId": cocktailId, "deleted": deleted});
       }
     });
   }
