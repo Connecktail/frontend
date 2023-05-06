@@ -31,13 +31,21 @@ export class ListCocktailsComponent implements OnInit {
       };
       this.websocketService.sendMessage(message);
     }
+
     this.websocketService.$messageResponse.subscribe((msg) => {
-      console.log("Response from websocket:", msg);
       this.cocktails = msg.cocktails;
     });
   }
-
-  ngOnInit() {
+  
+  ngOnInit(): void {
+    
+  }
+  
+  
+  ionViewDidEnter() {
+    this.websocketService.$messageResponse.subscribe((msg) => {
+      this.cocktails = msg.cocktails;
+    });
   }
 
 
@@ -85,4 +93,7 @@ export class ListCocktailsComponent implements OnInit {
     let resp = await modal.onWillDismiss();
   }
 
+  ionViewDidLeave(){
+    this.websocketService.$messageResponse.unsubscribe();
+  }
 }
