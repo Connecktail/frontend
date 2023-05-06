@@ -32,7 +32,15 @@ export class StorageService {
         let cocktailIndex = cart.findIndex((c: any) => c.id == cocktail.id);
         if(cocktailIndex == -1) {
           cocktail["number"] = 1;
-          cart.push(cocktail);
+          let inserted = false;
+          for(let i in cart) {
+            if(cart[i].id > cocktail.id) {
+              cart.splice(i, 0, cocktail);
+              inserted = true;
+              break;
+            }
+          }
+          if(!inserted) {cart.push(cocktail);}
         } else {
           cart[cocktailIndex]["number"] += 1;
         }

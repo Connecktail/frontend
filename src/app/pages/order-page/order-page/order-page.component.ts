@@ -11,19 +11,46 @@ import { WebsocketService } from 'src/app/service/websocket.service';
   styleUrls: ['./order-page.component.scss'],
 })
 export class OrderPageComponent implements OnInit {
-  cart: any;
+  cart: Array<any> = [];
   totalPrice: number = 0;
   totalNumber: number = 0;
   cocktailNumberChangedSubscription: Subscription | undefined;
+  currentOrder: any = {
+    percentage: 0,
+    step: 0,
+    total_step: 0,
+    bottle: 0,
+    total_bottle: 0,
+    message: ""
+  };
+  orderPassed: boolean = false;
+  currentStep: number = 0;
+
 
   constructor(
     private storageService: StorageService,
     private websocketService: WebsocketService,
     private alertController: AlertController
   ) { 
+    this.websocketService.$successConnected.subscribe((msg) => {
+      let message = {
+        "action" : "check_order"
+      };
+      this.websocketService.sendMessage(message);
+    });
+    if(this.websocketService.connected) {
+      let message = {
+        "action" : "check_order"
+      };
+      this.websocketService.sendMessage(message);
+    }
+
     this.cart = [];
+
     this.websocketService.$messageResponse.subscribe((msg) => {
-      console.log("Response from websocket:", msg);
+      if(msg.action == "status") {
+        this.updateStatus(msg);
+      }
     });
   }
 
@@ -36,6 +63,40 @@ export class OrderPageComponent implements OnInit {
         this.totalNumber += this.cart[i].number;
       }
     }, 0);
+
+    this.websocketService.$messageResponse.subscribe((msg) => {
+      if(msg.action == "status") {
+        this.updateStatus(msg);
+      }
+    });
+  }
+
+  updateStatus(msg: any) {
+    if(!this.orderPassed) {
+      this.orderPassed = true;
+      this.currentOrder.total_step = msg.total_step;
+      
+      if(msg.total_bottle != 0) {
+        this.currentOrder.step = msg.step;
+        this.currentOrder.total_bottle = msg.total_bottle;
+        this.currentOrder.bottle = msg.bottle;
+      }
+    }
+    this.currentOrder.percentage = ((this.currentOrder.step-1)/this.currentOrder.total_step + this.currentOrder.bottle/this.currentOrder.total_bottle/this.currentOrder.total_step)*100;
+    
+    this.currentOrder.step = msg.step;
+    this.currentOrder.total_bottle = msg.total_bottle;
+    this.currentOrder.bottle = msg.bottle;
+    this.currentOrder.message = msg.message;
+
+    let totalStep = 1;
+    for(let i = 0; i < this.cart.length; i++) {
+      totalStep += this.cart[i].number;
+      if(totalStep > this.currentOrder.step) {
+        this.currentStep = i;
+        break;
+      }
+    }
   }
 
   async ngOnInit(){
@@ -101,6 +162,11 @@ export class OrderPageComponent implements OnInit {
     }
 
     this.websocketService.sendMessage(req);
+  }
+
+
+  ionViewDidLeave(){
+    this.websocketService.$messageResponse.unsubscribe();
   }
 }
 

@@ -24,7 +24,6 @@ export class WebsocketService {
             map(
                 (response: MessageEvent): any => {
                     let data = JSON.parse(response.data);
-                    console.log(data);
                     return data;
                 }
             )

@@ -5,19 +5,41 @@
   </ion-toolbar>
 </ion-header>
 <ion-content>
-  <ion-list>
-    <ion-list-header>
-      <ion-label class="order-info">
-        <h2>{{ totalNumber }} cocktails</h2>
-        <h2>Total : {{ totalPrice }}€</h2>
-      </ion-label>
-    </ion-list-header>
-    <ng-container *ngFor="let cocktail of cart">
-        <app-cocktail-card 
-            displayedIn="order-page"
-            [cocktail]="cocktail"
-        ></app-cocktail-card>
-    </ng-container>
-  </ion-list>
-  <ion-button (click)="openValidateOrderModal()" expand="block"><ion-icon class="ion-justify-content-start" slot="icon-only" name="basket"></ion-icon> Validate your order</ion-button>
+  <ng-container *ngIf="!orderPassed">
+    <ion-list>
+      <ion-list-header>
+        <ion-label class="order-info">
+          <h2>{{ totalNumber }} cocktails</h2>
+          <h2>Total : {{ totalPrice }}€</h2>
+        </ion-label>
+      </ion-list-header>
+      <ng-container *ngFor="let cocktail of cart">
+          <app-cocktail-card 
+              displayedIn="order-page"
+              [cocktail]="cocktail"
+          ></app-cocktail-card>
+      </ng-container>
+    </ion-list>
+    <ion-button (click)="openValidateOrderModal()" expand="block"><ion-icon class="ion-justify-content-start" slot="icon-only" name="basket"></ion-icon> Validate your order</ion-button>
+  </ng-container>
+  <ng-container *ngIf="orderPassed && cart.length > 0">
+    <div class="order-status">
+      <div class="progression-bar">
+        <div class="inner-progression-bar" [style.width.%]="currentOrder.percentage"></div>
+      </div>
+      <div class="preparing">
+        <ng-container *ngIf="currentOrder.step != 0; else waitingToBeTaken">
+          <p>Now preparing : </p>
+          <p class="cocktail-name">{{ cart[currentStep].name }}</p>
+        </ng-container>
+        <ng-template #waitingToBeTaken><p>Order waiting to be taken...</p></ng-template>
+      </div>
+
+      <div *ngIf="currentOrder.step != 0" class="bottles">
+        <p>Bottle {{ currentOrder.bottle }}/{{ currentOrder.total_bottle }}</p>
+        <p>{{ currentOrder.message }}</p>
+      </div>
+    </div>
+
+  </ng-container>
 </ion-content>
