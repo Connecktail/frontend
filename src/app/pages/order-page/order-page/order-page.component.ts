@@ -74,16 +74,16 @@ export class OrderPageComponent implements OnInit {
   updateStatus(msg: any) {
     if(!this.orderPassed) {
       this.orderPassed = true;
-      this.currentOrder.total_step = msg.total_step;
       
       if(msg.total_bottle != 0) {
         this.currentOrder.step = msg.step;
-        this.currentOrder.total_bottle = msg.total_bottle;
-        this.currentOrder.bottle = msg.bottle;
       }
     }
-    this.currentOrder.percentage = ((this.currentOrder.step-1)/this.currentOrder.total_step + this.currentOrder.bottle/this.currentOrder.total_bottle/this.currentOrder.total_step)*100;
+    this.currentOrder.percentage = (this.currentOrder.step/this.currentOrder.total_step)*100;
     
+    this.currentOrder.total_step = msg.total_step;
+    this.currentOrder.total_cocktail = msg.total_cocktail;
+    this.currentOrder.cocktail = msg.cocktail;
     this.currentOrder.step = msg.step;
     this.currentOrder.total_bottle = msg.total_bottle;
     this.currentOrder.bottle = msg.bottle;
@@ -92,7 +92,7 @@ export class OrderPageComponent implements OnInit {
     let totalStep = 1;
     for(let i = 0; i < this.cart.length; i++) {
       totalStep += this.cart[i].number;
-      if(totalStep > this.currentOrder.step) {
+      if(totalStep > this.currentOrder.cocktail) {
         this.currentStep = i;
         break;
       }
