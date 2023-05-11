@@ -1,0 +1,22 @@
+ion-button {
+    --background: #EF6624;
+    --color: #FBFBFB;
+    --ripple-color: #ffa47d;
+    --padding-bottom: 1rem;
+    --padding-top: 1rem;
+}
+.bottle-info {
+    width: 100%;
+}
+
+.quantity-input{
+    display: flex;
+    align-items: center;
+    width: 50%;
+    color: #525252;
+    font-size: 0.9rem;
+
+    ion-input {
+        width: 10%;
+    }
+}

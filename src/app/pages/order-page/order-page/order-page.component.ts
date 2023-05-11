@@ -79,15 +79,17 @@ export class OrderPageComponent implements OnInit {
         this.currentOrder.step = msg.step;
       }
     }
-    this.currentOrder.percentage = (this.currentOrder.step/this.currentOrder.total_step)*100;
     
     this.currentOrder.total_step = msg.total_step;
     this.currentOrder.total_cocktail = msg.total_cocktail;
     this.currentOrder.cocktail = msg.cocktail;
-    this.currentOrder.step = msg.step;
     this.currentOrder.total_bottle = msg.total_bottle;
     this.currentOrder.bottle = msg.bottle;
     this.currentOrder.message = msg.message;
+
+    this.currentOrder.percentage = (this.currentOrder.step/this.currentOrder.total_step)*100;
+    
+    this.currentOrder.step = msg.step;
 
     let totalStep = 1;
     for(let i = 0; i < this.cart.length; i++) {
@@ -155,10 +157,20 @@ export class OrderPageComponent implements OnInit {
 
     this.cart = await this.storageService.get('cart');
     for(let i = 0; i < this.cart.length; i++) {
-      req.order.cocktails.push({
-        "recipe": this.cart[i].id,
-        "number": this.cart[i].number
-      });
+      if(this.cart[i].id != null) {
+        req.order.cocktails.push({
+          "recipe": this.cart[i].id,
+          "number": this.cart[i].number,
+          "perso": false
+        });
+      } else {
+        req.order.cocktails.push({
+          "recipe": null,
+          "items": this.cart[i].items,
+          "price": this.cart[i].price,
+          "perso": true
+        });
+      }
     }
 
     this.websocketService.sendMessage(req);

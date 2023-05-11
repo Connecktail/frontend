@@ -1,0 +1,63 @@
+:host {
+    // padding: 5%;
+    ion-toolbar {
+        position: relative;
+        ion-title {
+            position: absolute;
+            width: 100%;
+            height:100%;
+            top: 0;
+            left: 0;
+            font-size: 1.5rem;
+            font-weight: 600;
+            text-align: center;
+        }
+    }
+
+    ion-list-header {
+        padding: 0 1rem;
+
+        ion-label.order-info {
+            display: flex;
+            justify-content: space-between;
+
+            h2{
+                font-size: 1.2rem;
+            }
+        }
+    }
+
+    ion-content {
+        display: flex;
+        flex-direction: column;
+        --padding-start: 5%;
+        --padding-end: 5%;
+
+        .description {
+            p {
+                margin-bottom: 0; 
+            }
+            p:last-child {
+                margin-top: 0.2rem;
+            }
+        }
+
+        ion-button {
+            position: absolute;
+            bottom: 1rem;
+            right: 1rem;
+            width: calc(100% - 2rem);
+
+            ion-icon {
+                margin-right: 0.2rem;
+            }
+        }
+    }
+}
+
+
+::ng-deep {
+    .toast-error {
+        transform: translateY(-8%) !important;
+    }
+}

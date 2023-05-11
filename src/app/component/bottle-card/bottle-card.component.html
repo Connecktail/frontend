@@ -1,0 +1,26 @@
+<ion-item>
+  <ion-grid>
+    <ion-row class="ion-justify-content-between ion-align-items-center">
+      <ion-col>
+        <div class="bottle-info">
+          <ion-label size="auto">
+            <h2>{{bottle.name}}</h2>
+          </ion-label>
+          <ng-container *ngIf="bottle.checked">
+            <div class="quantity-input">
+              <ion-input type="number" [min]=0 placeholder="0" [value]="bottle.quantity" (ionInput)="changeBottleQuantity($event)"></ion-input>
+              <ion-label>cL</ion-label>
+            </div>
+          </ng-container>
+        </div>
+      </ion-col>
+
+      <ion-col size="auto" class="ion-justify-content-end">
+        <div class="actions-button">
+          <ion-checkbox (ionChange)="checkBottle($event)" [checked]="bottle.checked"></ion-checkbox>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <ion-reorder *ngIf="bottle.checked" slot="end"></ion-reorder>
+</ion-item>

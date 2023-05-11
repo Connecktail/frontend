@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage-angular';
-import { Observable, Subject, Subscription } from 'rxjs';
+import { last, Observable, Subject, Subscription } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -29,21 +29,26 @@ export class StorageService {
   public addCocktailToCart(cocktail: any) {
     this._storage?.get('cart').then((cart: any) => {
       if (cart) {
-        let cocktailIndex = cart.findIndex((c: any) => c.id == cocktail.id);
-        if(cocktailIndex == -1) {
-          cocktail["number"] = 1;
-          let inserted = false;
-          for(let i in cart) {
-            if(cart[i].id > cocktail.id) {
-              cart.splice(i, 0, cocktail);
-              inserted = true;
-              break;
+        if(cocktail.id == null) { // cocktail personnalisé
+          cart.push(cocktail);
+        } else {  // cocktail existant
+          let cocktailIndex = cart.findIndex((c: any) => c.id == cocktail.id);
+          if(cocktailIndex == -1) {
+            cocktail["number"] = 1;
+            let inserted = false;
+            for(let i in cart) { // on cherche où insérer le cocktail
+              if(cart[i].id > cocktail.id || cart[i].id == null) {
+                cart.splice(i, 0, cocktail);
+                inserted = true;
+                break;
+              }
             }
+            if(!inserted) {cart.push(cocktail);}
+          } else {
+            cart[cocktailIndex]["number"] += 1;
           }
-          if(!inserted) {cart.push(cocktail);}
-        } else {
-          cart[cocktailIndex]["number"] += 1;
         }
+        
       } else {
         cocktail["number"] = 1;
         cart = [cocktail];
@@ -65,6 +70,30 @@ export class StorageService {
         await this._storage?.set('cart', cart);
         this.$cocktailNumberChanged.next({"cocktailId": cocktailId, "deleted": deleted});
       }
+    });
+  }
+
+  public async deleteCocktailPerso(cocktailId: number) {
+    this._storage?.get('cart').then(async (cart: any) => {
+      let cocktailIndex = cart.findIndex((c: any) => c.perso_id == cocktailId);
+      if(cocktailIndex != -1) {
+        cart.splice(cocktailIndex, 1);
+        await this._storage?.set('cart', cart);
+        this.$cocktailNumberChanged.next({"cocktailPersoId": cocktailId, "deleted": true});
+      }
+    });
+  }
+
+  public async generateCocktailPersoLastId() {
+    return this._storage?.get('lastCocktailPersoId').then(async (id: number) => {
+      let cocktailPersoId:number = (id==null)?0:id;
+      await this._storage?.set('lastCocktailPersoId', ++cocktailPersoId);
+      return cocktailPersoId;
+    });
+  }
+
+  public async addCocktailPersoLastId() {
+    this._storage?.get('lastCocktailPersoId').then(async (lastCocktailPersoId: number) => {
     });
   }
 }

@@ -27,7 +27,8 @@
       <div class="progression-bar">
         <div class="inner-progression-bar" [style.width.%]="currentOrder.percentage"></div>
       </div>
-      <div class="preparing">
+      <img src="assets/img/order_waiting.gif">
+      <div class="preparing" *ngIf="currentOrder.percentage != 100">
         <ng-container *ngIf="currentOrder.cocktail != 0; else waitingToBeTaken">
           <p>Now preparing : </p>
           <p class="cocktail-name">{{ cart[currentStep].name }}</p>
@@ -36,7 +37,7 @@
       </div>
 
       <div *ngIf="currentOrder.cocktail != 0" class="bottles">
-        <p>Bottle {{ currentOrder.bottle }}/{{ currentOrder.total_bottle }}</p>
+        <p *ngIf="currentOrder.percentage != 100">Bottle {{ currentOrder.bottle }}/{{ currentOrder.total_bottle }}</p>
         <p>{{ currentOrder.message }}</p>
       </div>
     </div>

@@ -35,8 +35,13 @@ export class CartModalComponent implements OnInit {
       let cart = await this.storageService.get('cart');
 
       if(!res.deleted) {
-        let cocktailIndex = cart.findIndex((c: any) => c.id == res.cocktailId);
-        if(cocktailIndex != -1 && cart[cocktailIndex].id == res.cocktailId) {
+        let cocktailIndex: number = -1;
+        if(res.cocktailId) {
+          cocktailIndex = cart.findIndex((c: any) => c.id == res.cocktailId);
+        } else if(res.cocktailPersoId) {
+          cocktailIndex = cart.findIndex((c: any) => c.perso_id == res.cocktailPersoId);
+        }
+        if(cocktailIndex != -1) {
           this.totalPrice +=  (cart[cocktailIndex].number - this.cart[cocktailIndex].number)*this.cart[cocktailIndex].price;
           this.totalNumber += cart[cocktailIndex].number - this.cart[cocktailIndex].number;
           this.cart[cocktailIndex].number = cart[cocktailIndex].number;

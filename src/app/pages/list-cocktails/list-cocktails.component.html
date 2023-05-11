@@ -5,6 +5,7 @@
 </ion-header>
 <ion-content>
     <ion-list>
+        <ion-button class="cocktail-perso-button" expand="block" (click)="openCocktailPersoModal()"><ion-icon name="pencil-outline"></ion-icon> Personalize your cocktail</ion-button>
         <ng-container *ngFor="let cocktail of cocktails">
             <app-cocktail-card 
                 displayedIn="list-cocktails"

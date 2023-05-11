@@ -1,0 +1,30 @@
+
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button color="medium" (click)="closeModalEvent()">Back</ion-button>
+    </ion-buttons>
+    <ion-title>Make your own cocktail</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-list>
+    <ion-reorder-group [disabled]="false" (ionItemReorder)="handleReorder($any($event))">
+      <ng-container *ngFor="let bottle of bottles">
+          <app-bottle-card *ngIf="bottle.checked"
+              (bottleChecked)="bottleChecked($event)"
+              displayedIn="cart-modal"
+              [bottle]="bottle"
+          ></app-bottle-card>
+      </ng-container>
+    </ion-reorder-group>
+    <ng-container *ngFor="let bottle of bottles">
+        <app-bottle-card *ngIf="!bottle.checked"
+            (bottleChecked)="bottleChecked($event)"
+            displayedIn="cart-modal"
+            [bottle]="bottle"
+        ></app-bottle-card>
+    </ng-container>
+  </ion-list>
+  <ion-button (click)="addCocktailToCart()" expand="block"><ion-icon class="ion-justify-content-start" slot="icon-only" name="cart-outline"></ion-icon> Add personalized cocktail to cart</ion-button>
+</ion-content>

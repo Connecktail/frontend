@@ -29,4 +29,8 @@ export class CocktailCardComponent implements OnInit {
     this.storageService.changeCocktailNumber(this.cocktail.id, change);
   }
 
+  deleteCocktailPerso() {
+    this.storageService.deleteCocktailPerso(this.cocktail.perso_id);
+  }
+
 }
