@@ -176,6 +176,23 @@ export class OrderPageComponent implements OnInit {
     this.websocketService.sendMessage(req);
   }
 
+  finishOrder() {
+    this.storageService.set('cart', []);
+    this.cart = [];
+    this.totalPrice = 0;
+    this.totalNumber = 0;
+    this.orderPassed = false;
+    this.currentOrder = {
+      percentage: 0,
+      step: 0,
+      total_step: 0,
+      bottle: 0,
+      total_bottle: 0,
+      message: ""
+    };
+    this.currentStep = 0;
+  }
+
 
   ionViewDidLeave(){
     this.websocketService.$messageResponse.unsubscribe();
