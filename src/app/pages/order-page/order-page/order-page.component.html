@@ -40,6 +40,9 @@
         <p *ngIf="currentOrder.percentage != 100">Bottle {{ currentOrder.bottle }}/{{ currentOrder.total_bottle }}</p>
         <p>{{ currentOrder.message }}</p>
       </div>
+
+
+      <ion-button (click)="finishOrder()" *ngIf="currentOrder.percentage == 100" expand="block"><ion-icon class="ion-justify-content-start" slot="icon-only" name="basket"></ion-icon> I have received my order</ion-button>
     </div>
 
   </ng-container>
